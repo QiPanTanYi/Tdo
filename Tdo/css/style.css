@@ -1,0 +1,236 @@
+/* css/style.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  border-radius: 10px;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #e0f7fa; /* 温柔的背景色 */
+  margin: 0;
+}
+
+.container {
+  width: 460px;
+  font-weight: 800;
+  font-size: larger;
+  position: relative;
+  background: #e0f7fa;
+  padding: 20px;
+}
+
+.topTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #b2ebf2; /* 添加底部边框 */
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  min-height: 80px;
+}
+
+.current-time {
+  font-size: 1.2em;
+  color: #00796b; /* 深青色 */
+}
+
+#current-date, #current-time {
+  color: #004d40; /* 更深的绿色 */
+}
+
+.add-button {
+  display: flex;
+  align-items: center;
+}
+
+#addTaskBtn {
+  cursor: pointer;
+  background: #7bd6cc;
+  color: white;
+  border: none;
+  border-radius: 25%;
+  padding: 10px;
+  margin-right: 10px;
+  transition: background 0.3s ease;
+}
+
+#addTaskBtn:hover {
+  background: #32887a;
+}
+.delete-button {
+  background-color: red; /* 红色背景 */
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  min-width: 40px;
+  height: 40px;
+
+  transition: background-color 0.3s ease;
+}
+
+.delete-button svg {
+  fill: white; /* 白色图标 */
+}
+
+.delete-button:hover {
+  background-color: darkred; /* 鼠标悬停时的深红色背景 */
+}
+/* 事务列表 */
+.box {
+  background-color: #ffffff;
+  max-width: 420px;
+  max-height: 320px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Safari */
+    scrollbar-width: none;
+    /* IE/Edge */
+    overflow: auto;
+    /* Chrome/Firefox */
+    overflow-y: scroll;
+    /* Firefox */
+    width: calc(100vw + 18px);
+    /* 调整宽度以抵消隐藏滚动条后的空间变化 */
+    height: 100%;
+    margin: 0;
+}
+.box::-webkit-scrollbar {
+  display: none;
+  /* Chrome/Safari */
+}
+
+.task-list {
+  margin-top: 20px;
+}
+
+.task-list .list {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  background-color: #fafafa;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.task-list .list:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.task-list .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.task-list .content h2 {
+  white-space: pre-wrap; /* 保证换行 */
+  word-wrap: break-word;
+  font-weight: 600;
+  color: #004d40;
+  margin-bottom: 10px;
+}
+
+
+.task-list .content p {
+  font-size: 0.9em;
+  color: #555555;
+}
+/* 添加事务弹窗 */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  background-color: #ffffff;
+  padding: 20px;
+  margin: 10% auto;
+  border-radius: 15px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.modal-content h3 {
+  font-size: 1.6em;
+  font-weight: bold;
+  color: #00796b;
+  margin-bottom: 15px;
+}
+
+.modal-content label {
+  font-size: 1.2em;
+  color: #004d40;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="datetime-local"] {
+  font-size: 1.1em;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #b2ebf2;
+  background-color: #f1f1f1;
+  width: 100%;
+  margin-bottom: 20px;
+  transition: border 0.3s ease;
+}
+
+.modal-content input[type="text"]:focus,
+.modal-content input[type="datetime-local"]:focus {
+  border-color: #00796b;
+  outline: none;
+}
+
+.close {
+  font-size: 3em;
+  color: #00796b;
+  cursor: pointer;
+  transition: color 0.3s ease;  float: right;
+}
+
+.close:hover {
+  color: #004d40; /* 悬停时的深绿色 */
+}
+
+#saveTaskBtn {
+  margin-top: 6px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #4CAF50, #81C784); /* 渐变背景 */
+  color: white;
+  border: none;
+  border-radius: 25px; /* 圆角 */
+  padding: 10px 20px;
+  font-size: 1.1em;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+#saveTaskBtn:hover {
+  background: linear-gradient(135deg, #388E3C, #66BB6A); /* 悬停时颜色变化 */
+  transform: translateY(-2px); /* 鼠标悬停时的微妙浮动效果 */
+}
+
+#saveTaskBtn:active {
+  transform: translateY(1px); /* 按下按钮时的效果 */
+}
+

@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "Todo List Extension",
+    "description": "一个简单的浏览器待办事项拓展工具",
+    "version": "1.0",
+    "action": {
+      "default_popup": "index.html",
+      "default_icon": {
+        "16": "images/favicon-32x32.png",
+        "48": "images/favicon-32x32.png",
+        "128": "images/favicon-32x32.png"
+      }
+    },
+    "icons": {
+      "16": "images/favicon-32x32.png",
+      "48": "images/favicon-32x32.png",
+      "128": "images/favicon-32x32.png"
+    },
+    "permissions": [
+      "storage"
+    ]
+  }
+  

@@ -1,0 +1,51 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tdo</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="icon" href="./images/favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="topTitle">
+        <!-- 当前时间显示 -->
+        <div class="current-time">
+          <p id="current-date"></p>
+          <p id="current-time"></p>
+        </div>
+
+        <!-- 添加事务按钮 -->
+        <div class="add-button">
+          <button id="addTaskBtn">➕</button>
+        </div>
+      </div>
+
+      <!-- 事务列表 -->
+      <div class="box">
+        <h1>待办事项</h1>
+        <div id="taskList" class="task-list">
+          <!-- 由JS动态渲染+IndexDB存储数据 -->
+        </div>
+      </div>
+    </div>
+
+    <!-- 添加任务的弹窗 -->
+    <div id="taskModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>添加新任务</h3>
+        <label for="taskName">任务名称:</label>
+        <input type="text" id="taskName" placeholder="输入任务名称" />
+        <br />
+        <label for="deadline">截止时间:</label>
+        <input type="datetime-local" id="deadline" />
+        <button id="saveTaskBtn">保存任务</button>
+      </div>
+    </div>
+
+    <script src="./js/app.js"></script>
+  </body>
+</html>
