@@ -1,5 +1,28 @@
 // js/app.js
 let db;
+function initDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open('TodoDB', 1);
+
+    request.onupgradeneeded = function(event) {
+      db = event.target.result;
+      if (!db.objectStoreNames.contains('tasks')) {
+        db.createObjectStore('tasks', { keyPath: 'id', autoIncrement: true });
+      }
+    };
+
+    request.onsuccess = function(event) {
+      db = event.target.result;
+      console.log("IndexedDB 初始化成功");
+      resolve();
+    };
+
+    request.onerror = function(event) {
+      console.log("IndexedDB 初始化失败: ", event);
+      reject(event);
+    };
+  });
+}
 let tasks = [];
 // 获取 modal 和按钮元素
 const modal = document.getElementById('taskModal');
@@ -57,18 +80,34 @@ request.onerror = function(event) {
 
 // 从 IndexedDB 加载任务
 function loadTasks() {
-  const transaction = db.transaction(['tasks'], 'readonly');
-  const store = transaction.objectStore('tasks');
-  const request = store.getAll();
+  if (!db) {
+    console.log("数据库未初始化，正在尝试初始化...");
+    return initDB().then(() => {
+      return loadTasksFromDB();
+    }).catch(error => {
+      console.error("数据库初始化失败:", error);
+    });
+  }
+  return loadTasksFromDB();
+}
 
-  request.onsuccess = function(event) {
-    tasks = event.target.result;
-    renderTasks();
-  };
+function loadTasksFromDB() {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(['tasks'], 'readonly');
+    const store = transaction.objectStore('tasks');
+    const request = store.getAll();
 
-  request.onerror = function(event) {
-    console.log("任务加载失败: ", event);
-  };
+    request.onsuccess = function(event) {
+      tasks = event.target.result;
+      renderTasks();
+      resolve(tasks);
+    };
+
+    request.onerror = function(event) {
+      console.log("任务加载失败: ", event);
+      reject(event);
+    };
+  });
 }
 
 // 保存任务到 IndexedDB
@@ -80,6 +119,7 @@ function addTaskToDB(task) {
   transaction.oncomplete = function() {
     console.log("任务已添加到 IndexedDB");
     loadTasks();  // 重新加载任务
+    chrome.runtime.sendMessage({action: "taskUpdated"});  // 通知后台脚本
   };
 
   transaction.onerror = function(event) {
@@ -96,6 +136,7 @@ function deleteTaskFromDB(taskId) {
   transaction.oncomplete = function() {
     console.log("任务已从 IndexedDB 删除");
     loadTasks();  // 删除后重新加载任务
+    chrome.runtime.sendMessage({action: "taskUpdated"});  // 通知后台脚本
   };
 
   transaction.onerror = function(event) {
@@ -143,13 +184,12 @@ function renderTasks() {
     taskList.appendChild(listItem);
 
     // 立即设置倒计时
-    updateCountdown(task.id, task.deadline);
+    updateCountdown(task.id, task.deadline, task.name);
   });
 }
 
 
-// 定时更新倒计时
-function updateCountdown(taskId, deadline) {
+function updateCountdown(taskId, deadline, taskName) {
   const countdownElement = document.getElementById(`countdown-${taskId}`);
 
   // 计算并立即显示倒计时
@@ -160,6 +200,17 @@ function updateCountdown(taskId, deadline) {
   const intervalId = setInterval(function() {
     const updatedCountdownText = calculateCountdown(deadline);
     countdownElement.textContent = updatedCountdownText;
+
+    // 如果倒计时从2秒变为1秒，触发浏览器弹窗
+    if (updatedCountdownText === '0天 0小时 0分钟 2秒') {
+      setTimeout(() => {
+        chrome.runtime.sendMessage({
+          action: "countdownAlert",
+          taskName: taskName,
+          deadline: deadline
+        });
+      }, 1000);
+    }
 
     // 如果倒计时结束，停止定时器
     if (updatedCountdownText === '已过期') {
@@ -218,7 +269,10 @@ function updateTime(timestamp) {
 
 window.onload = function() {
   updateTime();  // 页面加载时立即显示当前时间
-  loadTasks();   // 页面加载时渲染任务
+  initDB().then(() => {
+    return loadTasks();
+  }).catch(error => {
+    console.error("初始化或加载任务失败:", error);
+  });
 }
-
 

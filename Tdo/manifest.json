@@ -1,23 +1,33 @@
 {
-    "manifest_version": 3,
-    "name": "Todo List Extension",
-    "description": "一个简单的浏览器待办事项拓展工具",
-    "version": "1.0",
-    "action": {
-      "default_popup": "index.html",
-      "default_icon": {
-        "16": "images/favicon-32x32.png",
-        "48": "images/favicon-32x32.png",
-        "128": "images/favicon-32x32.png"
-      }
-    },
-    "icons": {
-      "16": "images/favicon-32x32.png",
-      "48": "images/favicon-32x32.png",
-      "128": "images/favicon-32x32.png"
-    },
-    "permissions": [
-      "storage"
-    ]
-  }
-  
+  "manifest_version": 3,
+  "name": "Todo List Extension",
+  "description": "一个简单的浏览器待办事项拓展工具",
+  "version": "1.0",
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": {
+      "32": "images/favicon-32x32.png"
+    }
+  },
+  "icons": {
+    "32": "images/favicon-32x32.png"
+  },
+  "permissions": [
+    "storage",
+    "notifications",
+    "alarms"
+  ],
+  "background": {
+    "service_worker": "js/background.js",
+    "type": "module"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["music/Ringing.mp3"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
