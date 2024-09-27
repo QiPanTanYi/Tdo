@@ -27,7 +27,7 @@ Tdo/
 
 ### 安装
 
-该拓展当前适配Edge和Chorm浏览器，需要打开[edge://extensions](edge://extensions)或[chrome://extensions](chrome://extensions/)启动开发者模式，并将已打包好的[Tdo.zip](https://github.com/QiPanTanYi/Tdo/releases/tag/v1)中的Tdo这个文件夹整个拖入到当前页面中，即可完成安装。(点击[链接](https://github.com/QiPanTanYi/Tdo/releases/tag/v1)下载Tdo.zip到本地，可以放置在自己喜欢的任何文件路径中)
+该拓展当前适配Edge和Chorm浏览器，需要打开[edge://extensions](edge://extensions)或[chrome://extensions](chrome://extensions/)启动开发者模式，并将已打包好的[Tdo.zip](https://github.com/QiPanTanYi/Tdo/releases/tag/v2)中的Tdo这个文件夹整个拖入到当前页面中，即可完成安装。(点击[链接](https://github.com/QiPanTanYi/Tdo/releases/tag/v1)下载Tdo.zip到本地，可以放置在自己喜欢的任何文件路径中)
 
 ![edge://extensions](Document/p4.jpg)
 
